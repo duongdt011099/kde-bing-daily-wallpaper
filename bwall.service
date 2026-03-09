@@ -1,0 +1,6 @@
+[Unit]
+Description=Bing Wallpaper Downloader
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/bwall today
