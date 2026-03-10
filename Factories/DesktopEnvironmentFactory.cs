@@ -26,7 +26,7 @@ public class DesktopEnvironmentFactory
         {
             return new MateEnvironment();
         }
-        else if (desktopEnvironment == Environments.Cinnamon)
+        else if (desktopEnvironment == Environments.Cinnamon || desktopEnvironment == Environments.XCinnamon)
         {
             return new CinnamonEnvironment();
         }

@@ -9,20 +9,36 @@ public class XfceEnvironment : IDesktopEnvironment
     {
         var psi = new ProcessStartInfo
         {
-            FileName = "xfconf-query",
+            FileName = "/bin/bash",
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false
         };
 
-        psi.ArgumentList.Add("--channel");
-        psi.ArgumentList.Add("xfce4-desktop");
-        psi.ArgumentList.Add("--property");
-        psi.ArgumentList.Add("/backdrop/screen0/monitor0/image-path");
-        psi.ArgumentList.Add("--set");
-        psi.ArgumentList.Add(imagePath);
+        psi.ArgumentList.Add("-c");
+        psi.ArgumentList.Add("xfconf-query -c xfce4-desktop -l | grep last-image");
 
-        using var process = Process.Start(psi);
-        process?.WaitForExit();
+        using var monitorProcess = Process.Start(psi);
+
+        if (monitorProcess != null)
+        {
+            string output = monitorProcess.StandardOutput.ReadToEnd();
+            monitorProcess.WaitForExit();
+
+            if (!string.IsNullOrEmpty(output))
+            {
+                var correctMonitor = output.Split('\n').First();
+
+                if (!string.IsNullOrEmpty(correctMonitor))
+                {
+                    psi.ArgumentList.Clear();
+                    psi.ArgumentList.Add("-c");
+                    psi.ArgumentList.Add($"xfconf-query -c xfce4-desktop -p {correctMonitor} -s \"{imagePath}\"");
+
+                    using var process = Process.Start(psi);
+                    process?.WaitForExit();
+                }
+            }
+        }
     }
 }
