@@ -19,12 +19,12 @@ If you installed the `bwall` binary (AUR) the commands below are available.
 - `bwall --help` — show command help.
 
 ## Current support
-- Arch Linux via the AUR package: `bing-daily-wallpaper`
+- Arch Linux via the AUR package: `linux-bing-daily-wallpaper`
 
 Install (Arch Linux):
 
 ```
-yay -S bing-daily-wallpaper
+yay -S linux-bing-daily-wallpaper
 ```
 
 ## Build from source
