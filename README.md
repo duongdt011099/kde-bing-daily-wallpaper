@@ -46,11 +46,12 @@ dotnet publish -c Release -o out
 ## Enable automatic refresh daily wallpaper
 ```
 systemctl --user daemon-reload
+systemctl --user enable --now bwall.service
 systemctl --user enable --now bwall.timer
 ```
 
 ## Notes
-- Downloaded wallpapers will be stored in your user home folder: /home/user/Pictures/Bing Wallpapers
+- Downloaded wallpapers will be stored in your user home folder: ````/home/user/Pictures/Bing Wallpapers````
 - If you'd like support for other distributions or a packaged release, I can add packaging instructions or CI workflows.
 - For xfce environment: Please change the wallpaper at least once from the UI before using the bwall command or it won't work.
 
