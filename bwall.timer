@@ -2,7 +2,6 @@
 Description=Run Bing wallpaper downloader daily
 After=graphical-session.target
 PartOf=graphical-session.target
-ConditionEnvironment=DISPLAY
 
 [Timer]
 OnCalendar=daily
