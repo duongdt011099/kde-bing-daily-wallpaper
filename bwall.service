@@ -1,9 +1,7 @@
 [Unit]
 Description=Bing Wallpaper Downloader
-Wants=network-online.target graphical-session.target
-After=network-online.target graphical-session.target
-PartOf=graphical-session.target
 
 [Service]
-Type=oneshot
+ExecCondition=/usr/bin/bash -c '[ "$XDG_SESSION_TYPE" = "x11" ] || [ "$XDG_SESSION_TYPE" = "wayland" ]'
+ExecStartPre=/usr/bin/bash -c 'until ping -c1 bing.com >/dev/null 2>&1; do sleep 10; done'
 ExecStart=/usr/bin/bwall today

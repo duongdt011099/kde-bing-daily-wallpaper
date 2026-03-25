@@ -30,25 +30,27 @@ public class BingWallpaperDownloader : IBingWallpaperDownloader
         }
 
         var image = bingWallpaperResponse.Images[0];
+        var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile); ;
+        var directory = $"{home}/Pictures/Bing Wallpapers";
+        var filePath = $"{directory}/{image.FullStartDate}.jpg";
+
+        if (File.Exists(filePath))
+        {
+            Console.WriteLine("Already downloaded latest daily picture, skippig...");
+            return null;
+        }
+
         var wallpaperUrl = $"https://www.bing.com{image.Url}";
         var wallpaperResponse = await httpClient.GetAsync(wallpaperUrl);
         wallpaperResponse.EnsureSuccessStatusCode();
-
-        var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile); ;
-        var directory = $"{home}/Pictures/Bing Wallpapers";
 
         if (!Directory.Exists(directory))
         {
             Directory.CreateDirectory(directory);
         }
 
-        var filePath = $"{directory}/{image.FullStartDate}.jpg";
-
-        if (!File.Exists(filePath))
-        {
-            await using var fs = new FileStream(filePath, FileMode.Create);
-            await wallpaperResponse.Content.CopyToAsync(fs);
-        }
+        await using var fs = new FileStream(filePath, FileMode.Create);
+        await wallpaperResponse.Content.CopyToAsync(fs);
 
         return filePath;
     }

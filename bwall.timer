@@ -1,11 +1,10 @@
 [Unit]
 Description=Run Bing wallpaper downloader daily
-After=graphical-session.target
-PartOf=graphical-session.target
 
 [Timer]
-OnCalendar=daily
 Persistent=true
+OnBootSec=30s
+OnUnitActiveSec=15min
 
 [Install]
 WantedBy=timers.target
